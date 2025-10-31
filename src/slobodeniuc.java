@@ -2,7 +2,9 @@ import java.util.concurrent.CountDownLatch;
 
 class ThreadOne implements Runnable {
     private CountDownLatch latch;
-    public ThreadOne (CountDownLatch latch) {
+    private CountDownLatch WorkDone;
+    public ThreadOne (CountDownLatch WorkDone, CountDownLatch latch) {
+        this.WorkDone = WorkDone;
         this.latch = latch;
     }
 
@@ -30,8 +32,9 @@ class ThreadOne implements Runnable {
         // сумма произведений чисел по два с первым элементом
         for (int i = 0; i < oddNumbers.length ; i++) {
             sum += first * oddNumbers[i];
-            //System.out.println(sum);
+            System.out.println("Поток 1 высрал: "+sum);
         }
+        WorkDone.countDown();
         System.out.println("Выполненный результат потока 1 : "+sum);
         latch.countDown();
     }
@@ -39,10 +42,12 @@ class ThreadOne implements Runnable {
 class ThreadTwo implements Runnable {
     private CountDownLatch latch;
     private CountDownLatch waitFor;
+    private CountDownLatch WorkDone;
 
-    public ThreadTwo(CountDownLatch waitFor, CountDownLatch latch) {
+    public ThreadTwo(CountDownLatch WorkDone, CountDownLatch waitFor, CountDownLatch latch) {
         this.waitFor = waitFor;
         this.latch = latch;
+        this.WorkDone = WorkDone;
     }
     public void run() {
 
@@ -70,9 +75,10 @@ class ThreadTwo implements Runnable {
          for (int i = 0; i < oddNumbers.length ; i++) {
             if (oddNumbers[i]!=last) {
                 sum += last * oddNumbers[i];
-               // System.out.println(sum);
+               System.out.println("Поток 2 высрал: "+sum);
             }
         }
+         WorkDone.countDown();
         try{
             waitFor.await();
         } catch (InterruptedException e) {}
@@ -80,48 +86,53 @@ class ThreadTwo implements Runnable {
         latch.countDown();
 
 
-        System.out.println("Работу выполнил Олег");
+        //System.out.println("Работу выполнил Олег");
     }
 }
 
 class ThreadThree implements Runnable{
     private CountDownLatch latch;
     private CountDownLatch waitFor;
-    public ThreadThree(CountDownLatch waitFor, CountDownLatch latch) {
+    private CountDownLatch WorkDone;
+    public ThreadThree(CountDownLatch WorkDone, CountDownLatch waitFor, CountDownLatch latch) {
+        this.WorkDone = WorkDone;
         this.waitFor = waitFor;
         this.latch = latch;
     }
 
     public void run(){
+        for (int i = 1111; i <=1748 ; i++) {
+            System.out.println(i);
+        }
         try{
             waitFor.await();
         } catch (InterruptedException e) {}
-        for (int i = 1111; i <=1748 ; i++) {
-            //System.out.println("я даун");
-        }
-        System.out.println("Третий закончил");
+        WorkDone.countDown();
+       System.out.println("Третий закончил");
         latch.countDown();
     }
 }
 
 class ThreadFour implements Runnable{
+    private CountDownLatch WorkDone;
     private CountDownLatch latch;
     private CountDownLatch waitFor;
 
-    public ThreadFour (CountDownLatch waitFor, CountDownLatch latch) {
+    public ThreadFour (CountDownLatch WorkDone,CountDownLatch waitFor, CountDownLatch latch) {
+        this.WorkDone= WorkDone;
         this.waitFor = waitFor;
         this.latch = latch;
     }
 
 
     public void run(){
+        for (int j = 2000; j >=1478 ; j--) {
+            System.out.println(j);
+        }
         try{
             waitFor.await();
         } catch (InterruptedException e) {}
-
-        for (int j = 2000; j >=1478 ; j--) {
-           // System.out.println(j);
-        }
+        WorkDone.countDown();
         System.out.println("Четвертый закончил");
         latch.countDown();
 
