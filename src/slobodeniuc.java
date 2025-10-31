@@ -127,3 +127,5 @@ class ThreadFour implements Runnable{
 
     }
 }
+
+//воу воу братишка полегче
