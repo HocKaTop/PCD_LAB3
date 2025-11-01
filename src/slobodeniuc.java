@@ -139,4 +139,4 @@ class ThreadFour implements Runnable{
     }
 }
 
-//воу воу братишка полегче
+//воу воу братишка полегч
