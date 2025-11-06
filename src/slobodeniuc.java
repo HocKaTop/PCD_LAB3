@@ -33,14 +33,12 @@ import java.util.concurrent.CountDownLatch;
                 sum += first * oddNumbers[i];
                 System.out.println("Поток 1 : " + sum);
             }
-            try {
-                Thread.sleep(50);
-                latch.countDown();
+            latch.countDown();
+            try{latch.await();}catch(InterruptedException e){}
 
-            } catch (InterruptedException e) {
-            }
             System.out.println("Выполненный результат потока 1 : " + sum);
 
+            Main.print("Slobodeniuc");
         }
     }
 
@@ -80,26 +78,11 @@ import java.util.concurrent.CountDownLatch;
                     System.out.println("Поток 2 : " + sum);
                 }
             }
-
-            try {
-                Thread.sleep(110);
-                latch.countDown();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            latch.countDown();
+            try{latch.await();}catch(InterruptedException e){}
 
             System.out.println("Выполненный результат потока 2 : " + sum);
-
-            String name = new String();
-            name = "Slobodeniuc Oleg";
-            for (int i = 0; i < name.length(); i++) {
-                try {
-                    Thread.sleep(100);
-                    System.out.print(name.charAt(i));
-                } catch (Exception e) {
-                }
-            }
-
+            Main.print("Oleg");
 
         }
     }
@@ -115,14 +98,10 @@ import java.util.concurrent.CountDownLatch;
             for (int i = 1111; i <= 1748; i++) {
                 System.out.println("Поток 3: " + i);
             }
-            try {
-                Thread.sleep(150);
-                latch.countDown();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            latch.countDown();
+            try{latch.await();}catch(InterruptedException e){}
             System.out.println("Третий закончил");
-
+            Main.print("PCD");
         }
     }
 
@@ -139,30 +118,10 @@ import java.util.concurrent.CountDownLatch;
             for (int j = 2000; j >= 1478; j--) {
                 System.out.println("Поток 4: " + j);
             }
-            try {
-                Thread.sleep(200);
-                latch.countDown();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            latch.countDown();
+            try{latch.await();}catch(InterruptedException e){}
+
             System.out.println("Четвертый закончил");
-
-
-            try {
-                Thread.sleep(1550);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            String grup = new String();
-            grup = " CR-233";
-            for (int i = 0; i < grup.length(); i++) {
-                try {
-                    Thread.sleep(100);
-                    System.out.print(grup.charAt(i));
-                } catch (Exception e) {
-                }
-            }
-
+            Main.print("CR-233");
         }
     }
-//ready y
