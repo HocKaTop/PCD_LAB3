@@ -2,9 +2,13 @@ import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 
 public class Main {
+    static synchronized void print(String out){
+        System.out.println(out);
+    }
     static void main(String[] args) {
         CountDownLatch latch = new CountDownLatch(4);
         Monitor monitor = new Monitor();
+
         Scanner input = new Scanner(System.in);
         System.out.println("Выберите вариант: 1) Слободенюк 2)Кравченко");
         int choice = input.nextInt();
@@ -32,9 +36,5 @@ public class Main {
                     CravTh4.start();
                     break;
         }
-
-
-
-
     }
 }
